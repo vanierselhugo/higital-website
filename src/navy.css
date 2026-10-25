@@ -52,6 +52,23 @@ body{background:var(--navy)}
 .service-rows article{transition:border-color .3s}
 .service-rows a:hover{color:var(--ink)}
 .portfolio-section{background:var(--navy);padding-block:90px}
+/* Compact homepage feature; portfolio overview and case pages keep their layout. */
+.portfolio-section.portfolio-home{padding-block:clamp(48px,5vw,72px)}
+.portfolio-home .section-heading{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:28px 6%;margin-bottom:32px;align-items:center}
+.portfolio-home .section-heading h2{font-size:clamp(36px,4.2vw,62px)}
+.portfolio-home .section-heading>p{max-width:390px;margin:0}
+.portfolio-home .home-project-list{display:grid;gap:24px;margin-bottom:24px}
+.portfolio-home .home-project-card{display:grid;grid-template-columns:minmax(0,600px) minmax(0,1fr);align-items:center;gap:clamp(28px,4vw,56px);padding:28px;border:1px solid var(--white-25);border-radius:28px}
+.portfolio-home .home-project-image{min-width:0;max-width:600px;margin:0;overflow:hidden;border-radius:18px;background:var(--paper)}
+.portfolio-home .home-project-image img{display:block;width:100%;height:auto}
+.portfolio-home .home-project-copy{min-width:0;padding-block:6px}
+.portfolio-home .home-project-copy h3{margin:0 0 8px;font-size:clamp(28px,2.8vw,40px);line-height:1.15;color:var(--paper)}
+.portfolio-home .home-project-category{margin:0 0 18px;color:var(--blue);font-size:14px}
+.portfolio-home .home-project-description{max-width:420px;margin:0 0 24px;color:var(--on-navy-muted);font-size:16px;line-height:1.7}
+.portfolio-home .home-project-copy .button{max-width:100%}
+@media(max-width:1200px){.portfolio-home .home-project-card{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;padding:24px}}
+@media(max-width:800px){.portfolio-home .section-heading{grid-template-columns:1fr;gap:18px}.portfolio-home .section-heading>p{max-width:560px}.portfolio-home .home-project-card{grid-template-columns:1fr;gap:24px}.portfolio-home .home-project-image{width:100%;justify-self:center}.portfolio-home .home-project-description{max-width:560px}.portfolio-home .home-project-copy{padding:0}}
+@media(max-width:480px){.portfolio-home .home-project-card{padding:18px;gap:22px;border-radius:24px}.portfolio-home .home-project-image{border-radius:14px}.portfolio-home .home-project-category{font-size:13px}.portfolio-home .home-project-copy .button{padding-inline:22px}}
 .portfolio-section .portfolio-empty{background:transparent;border-color:var(--white-25);padding:clamp(30px,4vw,60px);border-radius:30px}
 .portfolio-section .empty-copy>p{color:var(--paper)}
 .portfolio-section .empty-copy .empty-note{color:var(--on-navy-muted)}

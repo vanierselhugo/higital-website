@@ -48,6 +48,8 @@ export const projects = [
     heroEyebrow: 'KLANTVERHAAL / WEBDESIGN / TILBURG',
     headline: 'Een nieuwe uitstraling voor een vertrouwde meubelzaak.',
     summary: 'Al sinds 1985 helpt Donders Meubel klanten bij het vinden van meubels die écht bij ze passen. Higital vertaalde die persoonlijke aanpak naar een moderne, overzichtelijke website waarin de collectie en de winkel centraal staan.',
+    homepageCategory: 'Website redesign · Tilburg',
+    homepageSummary: 'Een compleet vernieuwde website voor een vertrouwde meubelzaak in Tilburg. Met een frisse uitstraling, overzichtelijke collectie en aandacht voor persoonlijk advies.',
     serviceLabel: 'Webdesign & webontwikkeling',
     hero: dondersImages.homepage,
     heroFit: 'contain',
