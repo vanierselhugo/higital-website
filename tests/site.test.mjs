@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -37,6 +38,25 @@ test('Passenger uses its explicit Unix-socket listener when Passenger is present
   assert.deepEqual(listens,[['passenger',onListening]]);
   listenForPassenger(server,onListening,false);
   assert.deepEqual(listens[1],[0,onListening]);
+});
+test('Passenger startup configures the API and selects the Passenger socket without PORT',async()=>{
+  const originalListen=http.Server.prototype.listen;
+  const previousApi=globalThis.PhusionPassenger;
+  const previousPort=process.env.PORT;
+  const configured=[];let listenArgs;
+  globalThis.PhusionPassenger={configure:options=>configured.push(options)};
+  process.env.PORT='';
+  http.Server.prototype.listen=function(...args){listenArgs=args;return this;};
+  try{
+    await startServer({passenger:true});
+    assert.deepEqual(configured,[{autoInstall:false}]);
+    assert.equal(listenArgs[0],'passenger');
+    assert.equal(typeof listenArgs[1],'function');
+  }finally{
+    http.Server.prototype.listen=originalListen;
+    if(previousApi===undefined)delete globalThis.PhusionPassenger;else globalThis.PhusionPassenger=previousApi;
+    if(previousPort===undefined)delete process.env.PORT;else process.env.PORT=previousPort;
+  }
 });
 test('contact validation accepts a complete request and all supplied package choices',()=>{
   assert.deepEqual(globalThis.HigitalForm.validate(valid),{});
