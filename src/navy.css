@@ -4,6 +4,16 @@ body{background:var(--navy)}
 .surface{position:relative;border-radius:40px;background:var(--paper);color:var(--ink)}
 .surface-white{background:var(--white)}
 .surface-blue{background:var(--blue)}
+/* Homepage phases share continuous inner edges. Navy is visible only around
+   the outside corners; no clipping or overlap is needed for the transition. */
+.home-flow{--home-section-radius:40px;background:var(--navy)}
+.home-flow .home-phase>:is(.surface,.personal-intro){margin-block:0;border-radius:0}
+.home-flow .home-phase>:first-child{border-top-left-radius:var(--home-section-radius);border-top-right-radius:var(--home-section-radius)}
+.home-flow .home-phase>:last-child{border-bottom-left-radius:var(--home-section-radius);border-bottom-right-radius:var(--home-section-radius)}
+.home-flow>.process-home-dark{border-radius:0}
+.home-flow .home-assurances{padding-block:85px}
+.home-flow .closing-cta>.wrap{border-top:0;padding-top:0}
+@media(max-width:700px){.home-flow{--home-section-radius:28px}.home-flow .home-assurances{padding-block:62px}}
 .tone-dark{color:var(--paper)}
 .tone-dark :is(h1,h2,h3,h4){color:var(--paper)}
 .tone-dark :is(h1,h2,h3) em{color:var(--blue)}
