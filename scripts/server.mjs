@@ -6,7 +6,6 @@ import {redirects} from '../content/redirects.mjs';
 import {CONTACT_BODY_LIMIT,createContactService,validSameOrigin} from '../src/contact-service.mjs';
 import {loadLocalEnv} from './load-env.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../dist');
-const port=Number(process.env.PORT)||5173;
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.txt':'text/plain; charset=utf-8','.json':'application/json'};
 export function createPreviewServer(options={}){const env=options.env??process.env;const contactService=options.contactService??createContactService({env});return http.createServer(async(req,res)=>{
   const headers={'X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin','Cache-Control':'no-store'};
@@ -58,12 +57,15 @@ export function createPreviewServer(options={}){const env=options.env??process.e
 export async function startServer({passenger=false}={}){
   await loadLocalEnv();
   const server=createPreviewServer();
-  const configuredPort=process.env.PORT;
-  const port=passenger?Number(configuredPort):(Number(configuredPort)||5173);
-  if(passenger&&(!configuredPort||!Number.isInteger(port)||port<1||port>65535))throw new Error('Passenger heeft geen geldige PORT aan de Node.js-app doorgegeven.');
-  server.on('error',error=>{console.error(error.code==='EADDRINUSE'?`Poort ${port} is bezet. Stop de andere server of gebruik $env:PORT=5174.`:error.message);process.exitCode=1;});
+  const port=Number(process.env.PORT)||5173;
+  server.on('error',error=>{console.error(error.code==='EADDRINUSE'?(passenger?'Passenger kon de applicatiesocket niet openen.':`Poort ${port} is bezet. Stop de andere server of gebruik $env:PORT=5174.`):error.message);process.exitCode=1;});
   const onListening=()=>console.log(passenger?'Higital Passenger-app gestart.':`Higital lokaal: http://localhost:${port}\nE-mailverzending is actief wanneer Resend is ingesteld. Stop met Ctrl+C.`);
-  if(passenger)server.listen(port,onListening);
+  if(passenger){
+    // Passenger hooks this listener and forwards requests through its private
+    // Unix socket; the TCP port argument is ignored. Port 0 avoids a fixed port
+    // dependency and also remains a safe ephemeral fallback without the hook.
+    server.listen(0,onListening);
+  }
   else server.listen(port,'localhost',onListening);
   return server;
 }

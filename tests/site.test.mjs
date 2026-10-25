@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {once} from 'node:events';
-import {createPreviewServer} from '../scripts/server.mjs';
+import {createPreviewServer,startServer} from '../scripts/server.mjs';
 import {pages} from '../src/pages.mjs';
 import {packages,care,brand,navigation} from '../content/site.mjs';
 import {redirects} from '../content/redirects.mjs';
@@ -16,6 +16,19 @@ import {createContactService,validateSubmission} from '../src/contact-service.mj
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const dist=path.join(root,'dist');
 const valid={name:'Voorbeeld Persoon',company:'Voorbeeldbedrijf',email:'test@example.com',phone:'',website:'https://example.com',package:'business',message:'Ik wil een nieuwe website voor mijn lokale bedrijf.'};
+test('Passenger startup works without PORT and opens a dynamically assigned listener',async()=>{
+  const previous=process.env.PORT;process.env.PORT='';
+  let server;
+  try{
+    server=await startServer({passenger:true});
+    await once(server,'listening');
+    assert.equal(typeof server.address(),'object');
+    assert.ok(server.address().port>0);
+  }finally{
+    if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+    if(previous===undefined)delete process.env.PORT;else process.env.PORT=previous;
+  }
+});
 test('contact validation accepts a complete request and all supplied package choices',()=>{
   assert.deepEqual(globalThis.HigitalForm.validate(valid),{});
   for(const option of globalThis.HigitalForm.allowedPackages)assert.deepEqual(globalThis.HigitalForm.validate({...valid,package:option,website:'',phone:'+31 (0) 6 1234 5678'}),{});
