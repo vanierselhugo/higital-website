@@ -9,7 +9,7 @@ export function validateSubmission(input) {
   const value = key => String(input?.[key] ?? '').trim();
   const errors = {};
   if (value('name').length < 2 || value('name').length > 120) errors.name = 'Vul je naam in.';
-  if (value('company').length < 2 || value('company').length > 160) errors.company = 'Vul je bedrijfsnaam in.';
+  if (value('company').length > 160) errors.company = 'De bedrijfsnaam mag maximaal 160 tekens bevatten.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value('email')) || value('email').length > 200) errors.email = 'Vul een geldig e-mailadres in.';
   if (value('phone') && !/^[+()\d\s.-]{6,40}$/.test(value('phone'))) errors.phone = 'Controleer het telefoonnummer.';
   if (!packageNames.has(value('package'))) errors.package = 'Kies een geldige optie.';
@@ -43,7 +43,7 @@ export function createContactService({env = process.env, fetchImpl = globalThis.
       const text = [
         'Nieuwe websiteaanvraag via higital.nl', '',
         `Naam: ${clean('name')}`,
-        `Bedrijf: ${clean('company')}`,
+        `Bedrijf: ${clean('company') || 'Niet opgegeven'}`,
         `E-mailadres: ${clean('email')}`,
         `Telefoon: ${clean('phone') || 'Niet opgegeven'}`,
         `Onderwerp: ${packageNames.get(clean('package'))}`, '',

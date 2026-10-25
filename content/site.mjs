@@ -21,9 +21,15 @@ export const care = [
 export const processSteps = [
   ['Kennismaking','Eerst jouw verhaal.','We bespreken je bedrijf, je klanten en wat je nieuwe website moet kunnen. Je hoeft nog geen uitgewerkt plan te hebben.'],
   ['Wensen en inspiratie','Een duidelijk vertrekpunt.','We verzamelen je wensen, beelden en voorbeelden en bepalen samen de richting.'],
-  ['Persoonlijk websiteconcept','Je idee wordt zichtbaar.','Higital maakt een eerste visueel concept, afgestemd op jouw bedrijf. Zo krijg je iets concreets om op te reageren.'],
-  ['Vrijblijvende presentatie','Eerst zien. Dan beslissen.','We laten het concept vrijblijvend zien en bespreken onze keuzes. Je ontdekt hoe de nieuwe website eruit kan zien.'],
-  ['Ontwikkeling na akkoord','Samen naar de juiste versie.','Na akkoord bouwen we de website verder uit. We verwerken de afgesproken feedback en werken de pagina’s en functies af.'],
+  ['Persoonlijk websiteconcept','Je idee wordt zichtbaar.','Ik maak een eerste visueel concept, afgestemd op jouw bedrijf. We spreken vooraf af wat het omvat en of er kosten aan verbonden zijn.'],
+  ['Presentatie en keuze','Eerst zien. Dan beslissen.','Ik laat het concept zien en bespreek mijn keuzes. Daarna beslis jij of je met de betaalde opdracht verder wilt.'],
+  ['Ontwikkeling na akkoord','Samen naar de juiste versie.','Na jouw akkoord op het voorstel bouw ik de website verder uit. Ik verwerk de afgesproken feedback en werk de pagina’s en functies af.'],
   ['Oplevering','Klaar om gezien te worden.','We testen de website en publiceren na jouw akkoord. Je krijgt de uitleg die bij je pakket hoort.']
+];
+export const processSummarySteps = [
+  ['Kennismaken','Ik hoor graag wat je bedrijf doet en wat je zoekt. Een uitgewerkt plan is niet nodig.'],
+  ['Richting bepalen','We bespreken je wensen, inhoud, voorbeelden en de omvang van het project.'],
+  ['Concept bekijken','Ik maak en presenteer een eerste concept. Inhoud en eventuele kosten spreken we vooraf af.'],
+  ['Akkoord en bouwen','Pas na jouw akkoord start de afgesproken betaalde opdracht. Daarna werken we samen naar oplevering.']
 ];
 export const navigation = [['Home','/'],['Websites & prijzen','/websites-prijzen/'],['Ons werk','/ons-werk/'],['Over Higital','/over-higital/'],['Contact','/contact/']];

@@ -69,7 +69,7 @@ test('all pages include one accessible widget with exact WhatsApp message and em
     assert.match(html,/<a class="contact-trigger" href="\/contact\/"/);
     assert.match(html,/aria-label="Contactpaneel sluiten"/);assert.match(html,/type="module" src="\/assets\/contact-ui.js/);
     if(route==='/'){
-      assert.match(html,/Illustratief voorbeeldgesprek\. Geen echte chat of klantreview\./);
+      assert.match(html,/Illustratief voorbeeld van een contactmoment\. Geen echte chat of klantreview en geen toezegging over reactietijd of onbeperkte wijzigingen/);
       assert.equal((html.match(/class="chat-message /g)||[]).length,5);
       let previous=-1;for(const [,message] of exampleMessages){const index=html.indexOf(esc(message));assert.ok(index>previous);previous=index;}
       assert.ok(html.indexOf('personal-intro')<html.indexOf('direct-contact-section'));

@@ -26,3 +26,13 @@ Vul de privacyverklaring vóór publicatie aan of bevestig die met de werkelijke
 - Of de uiteindelijke hostinglaag, eventuele CDN, scripts of ingeschakelde plugins cookies of andere opslag toevoegen. De huidige broncode gebruikt geen cookies, analyse- of advertentietools en laadt geen externe fonts.
 
 Deze punten zijn open omdat bedrijfs-, hosting- en accountgegevens niet in het project aanwezig zijn. De huidige cookieverklaring beschrijft alleen de code die nu in de site staat; controleer haar opnieuw na het toevoegen of wijzigen van diensten.
+
+## Zakelijke keuzes en inhoud vóór lancering
+
+- De oude WordPress-pagina's waren tijdens de contentcontrole niet bereikbaar. Bevestig daarom of een kennismaking nog ongeveer een half uur duurt en of Hugo meestal binnen één werkdag reageert. De huidige nieuwe contacttekst belooft bewust geen duur of reactietermijn.
+- Bepaal of het eerste visuele websiteconcept gratis is, betaald is of per aanvraag wordt afgesproken. De nieuwe tekst belooft geen gratis concept: de inhoud en eventuele kosten worden vóór het maken besproken, en de klant beslist na de presentatie of de betaalde opdracht start.
+- Bevestig de standaard afspraak voor aanleveren van teksten en foto's, hoeveel redactiehulp inbegrepen is en of tekstschrijven of beeldinkoop extra wordt geoffreerd. De prijspagina zegt nu dat de klant in principe aanlevert, Hugo meedenkt over opbouw en volledige productie vooraf apart wordt afgesproken.
+- Bepaal welke toegang, bestanden en eventuele CMS-beheerrechten standaard bij oplevering horen. De standaard websitecode heeft geen klantgerichte CMS-editor; zelf beheren vereist een afgesproken beheersysteem en kan extra inrichting vragen.
+- Vergelijk de oude WordPress-sitemap en permalinklijst met het voorstel in [REDIRECTS.md](REDIRECTS.md). Exporteer de twee oude kennisartikelen, bevestig hun titels/URL's en besluit of ze worden gemigreerd of inhoudelijk worden doorverwezen.
+- Controleer de bedrijfs- en privacygegevens, hostinglogs en verwerkersinformatie uit de sectie hierboven. De code gebruikt geen analytics of advertentietracking, maar hosting- en mailinstellingen moeten afzonderlijk worden bevestigd.
+- Voer na de mailconfiguratie één testaanvraag uit en controleer dat die aankomt. Dit is nog niet gedaan; tijdens deze wijziging zijn geen echte aanvragen verstuurd.

@@ -60,10 +60,11 @@ test('Passenger startup configures the API and selects the Passenger socket with
 });
 test('contact validation accepts a complete request and all supplied package choices',()=>{
   assert.deepEqual(globalThis.HigitalForm.validate(valid),{});
+  assert.deepEqual(globalThis.HigitalForm.validate({...valid,company:''}),{});
   for(const option of globalThis.HigitalForm.allowedPackages)assert.deepEqual(globalThis.HigitalForm.validate({...valid,package:option,website:'',phone:'+31 (0) 6 1234 5678'}),{});
 });
 test('contact validation rejects empty fields, invalid addresses and unwanted package values',()=>{
-  const empty=globalThis.HigitalForm.validate({});assert.deepEqual(Object.keys(empty).sort(),['company','email','message','name']);
+  const empty=globalThis.HigitalForm.validate({});assert.deepEqual(Object.keys(empty).sort(),['email','message','name']);
   for(const email of ['fout','a@','a @voorbeeld.nl'])assert.ok(globalThis.HigitalForm.validate({...valid,email}).email);
   for(const website of ['javascript:alert(1)','file:///C:/test','geen-webadres','ftp://example.com'])assert.ok(globalThis.HigitalForm.validate({...valid,website}).website);
   assert.ok(globalThis.HigitalForm.validate({...valid,package:'<script>alert(1)</script>'}).package);
@@ -98,10 +99,10 @@ test('all generated pages, internal links, local frames, assets and anchors reso
   }
 });
 test('public pages contain no demo language and contact submits through the mail service',async()=>{
-  for(const file of await fs.readdir(dist,{recursive:true}))if(file.endsWith('.html')){const html=await fs.readFile(path.join(dist,file),'utf8');assert.doesNotMatch(html,/demonstratie|lokale ontwikkelomgeving|concepttekst|lokaal websiteconcept|test de aanvraag|na de demo|formulier is een demo|conceptpagina|conceptversie/i,file);assert.match(html,/Gratis kennismaking/);assert.match(html,/index, follow/);}
+  for(const file of await fs.readdir(dist,{recursive:true}))if(file.endsWith('.html')){const html=await fs.readFile(path.join(dist,file),'utf8');assert.doesNotMatch(html,/demonstratie|lokale ontwikkelomgeving|concepttekst|lokaal websiteconcept|test de aanvraag|na de demo|formulier is een demo|conceptpagina|conceptversie/i,file);assert.doesNotMatch(html,/https?:\/\/nieuw\.higital\.nl/i,file);assert.match(html,/Gratis kennismaking/);assert.match(html,/index, follow/);}
   const form=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');assert.match(form,/action="\/api\/contact"/);assert.match(form,/Verstuur aanvraag/);assert.match(form,/role="status" aria-live="polite"/);assert.match(form,/<noscript>/);
   const privacy=await fs.readFile(path.join(dist,'privacy/index.html'),'utf8');assert.match(privacy,/Resend/);assert.match(privacy,/info@higital.nl/);
-  const cookies=await fs.readFile(path.join(dist,'cookies/index.html'),'utf8');assert.match(cookies,/plaatst zelf geen cookies/);
+  const cookies=await fs.readFile(path.join(dist,'cookies/index.html'),'utf8');assert.match(cookies,/websitecode gebruikt geen cookies/);assert.match(cookies,/hostingprovider kan eigen technische logs/);
   const footer=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(footer,/Alle rechten voorbehouden/);assert.match(footer,/Privacyverklaring/);assert.match(footer,/Cookiebeleid/);assert.doesNotMatch(footer,/Privacy · concept|Lokaal websiteconcept/i);
   const portfolio=await fs.readFile(path.join(dist,'ons-werk/index.html'),'utf8');assert.match(portfolio,/Elk project begint met een goed gesprek/);assert.doesNotMatch(portfolio,/class="portfolio-card"/);
   const app=await fs.readFile(path.join(dist,'assets/app.js'),'utf8');assert.match(app,/fetch\('\/api\/contact'/);assert.doesNotMatch(app,/demo=1|bedankt\//);assert.match(app,/prefers-reduced-motion/);
@@ -148,6 +149,8 @@ test('email service validates requests, sends only to Higital, and confirms prov
   assert.deepEqual(await service.submit({input,ip:'127.0.0.1'}),{status:200,ok:true});
   assert.equal(sent.url,'https://api.resend.com/emails');assert.equal(sent.options.headers.Authorization,'Bearer unit-test-key');
   const mail=JSON.parse(sent.options.body);assert.deepEqual(mail.to,['info@higital.nl']);assert.equal(mail.reply_to,input.email);assert.ok(mail.text.includes(input.message));
+  const noCompany=createContactService({env:{RESEND_API_KEY:'unit-test-key',HIGITAL_FROM_EMAIL:'website@example.nl'},fetchImpl:async(_url,options)=>{sent={options};return{ok:true,json:async()=>({id:'no-company-id'})};}});
+  assert.equal((await noCompany.submit({input:{...input,company:''},ip:'no-company'})).status,200);assert.match(JSON.parse(sent.options.body).text,/Bedrijf: Niet opgegeven/);
   let invoked=false;const missing=createContactService({env:{},fetchImpl:async()=>{invoked=true;}});
   assert.equal((await missing.submit({input,ip:'1'})).status,503);assert.equal(invoked,false);
   const rejected=createContactService({env:{RESEND_API_KEY:'key',HIGITAL_FROM_EMAIL:'website@example.nl'},fetchImpl:async()=>({ok:false})});
@@ -176,8 +179,8 @@ test('authentic images copied intact, optimised portrait and work variants prese
   const mapping=[['Foto Mezelf.png','hugo-portret-original.png'],['Foto aan het werk.jpg','hugo-werk-original.jpg'],['hugo-aan-de-telefoon-254x300.jpg','hugo-telefoon.jpg'],['kennismaking-handdruk-300x168.jpg','kennismaking.jpg']];
   for(const [source,copy] of mapping){const a=await fs.readFile(path.join(sourceRoot,source));const b=await fs.readFile(path.join(root,'public/assets',copy));assert.deepEqual(a,b);}
   for(const name of ['hugo-portret-400.jpg','hugo-portret-800.jpg','hugo-werk-600.jpg','hugo-werk-1200.jpg']){const file=await fs.readFile(path.join(dist,'assets',name));assert.equal(file.readUInt16BE(0),0xffd8);assert.ok(file.length<110000);}
-  const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);
-  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/kennismaking.jpg/);
+  const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);assert.match(about,/kennismaking.jpg/);
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/class="process-summary/);
   for(const name of ['hugo-portret-original.png','hugo-werk-original.jpg'])await assert.rejects(fs.access(path.join(dist,'assets',name)));
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');assert.match(contact,/hugo-telefoon.jpg/);
 });
@@ -206,8 +209,14 @@ test('five main navigation destinations, real contact details and all brief incl
   }
   const full=await fs.readFile(path.join(dist,'websites-prijzen/index.html'),'utf8');
   for(const p of [...packages,...care])for(const feature of p.features)assert.ok(full.includes(feature),feature);
+  for(const detail of ['Teksten en beelden','Zelf aanpassen','Feedback en meerwerk','Toegang en oplevering','responsive','snelheidsoptimalisatie'])assert.ok(full.includes(detail),detail);
   for(const id of ['pakketten','vernieuwen','onderhoud','vragen','start','business','premium'])assert.ok(full.includes(`id="${id}"`));
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');
   assert.deepEqual([...contact.matchAll(/<(?:input|select|textarea)[^>]*name="([^"]+)"/g)].map(m=>m[1]),['website','name','company','email','phone','package','message']);
+  assert.match(contact,/Bedrijfsnaam <span>\(optioneel\)<\/span>/);assert.doesNotMatch(contact.match(/<input id="company"[^>]+>/)[0],/required/);
+  for(const text of ['Wat gebeurt er na je aanvraag?','Een uitgewerkt plan is niet nodig','of er kosten aan verbonden zijn','tel:\+31643880582','wa.me\/31643880582'])assert.ok(contact.includes(text),text);
   for(const retired of ['websites-laten-maken','websitepakketten','websiteonderhoud','werkwijze'])await assert.rejects(fs.access(path.join(dist,retired,'index.html')));
+  for(const [old,target] of Object.entries(redirects))assert.ok(old.endsWith('/')&&target.startsWith('/'),old);
+  const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');for(const org of ['Optisport','Fency Jewels','SuperSeal'])assert.ok(about.includes(org));
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.ok(home.indexOf('personal-intro')<home.indexOf('pricing-section'));assert.ok(home.indexOf('process-summary')<home.indexOf('Illustratief voorbeeld van een contactmoment'));
 });
