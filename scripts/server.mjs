@@ -54,17 +54,27 @@ export function createPreviewServer(options={}){const env=options.env??process.e
     const data=await fs.readFile(target);res.writeHead(200,{...headers,'Content-Type':types[path.extname(target)]||'application/octet-stream','Content-Length':data.length});res.end(req.method==='HEAD'?undefined:data);
   }catch{const data=await fs.readFile(path.join(root,'404.html'));res.writeHead(404,{...headers,'Content-Type':'text/html; charset=utf-8'});res.end(req.method==='HEAD'?undefined:data);}
 });}
+export function configurePassengerSocket(passengerApi=globalThis.PhusionPassenger){
+  if(typeof passengerApi?.configure!=='function')return false;
+  passengerApi.configure({autoInstall:false});
+  return true;
+}
+export function listenForPassenger(server,onListening,usePassengerSocket){
+  if(usePassengerSocket)server.listen('passenger',onListening);
+  else server.listen(0,onListening);
+}
 export async function startServer({passenger=false}={}){
   await loadLocalEnv();
+  const usePassengerSocket=passenger&&configurePassengerSocket();
   const server=createPreviewServer();
   const port=Number(process.env.PORT)||5173;
   server.on('error',error=>{console.error(error.code==='EADDRINUSE'?(passenger?'Passenger kon de applicatiesocket niet openen.':`Poort ${port} is bezet. Stop de andere server of gebruik $env:PORT=5174.`):error.message);process.exitCode=1;});
   const onListening=()=>console.log(passenger?'Higital Passenger-app gestart.':`Higital lokaal: http://localhost:${port}\nE-mailverzending is actief wanneer Resend is ingesteld. Stop met Ctrl+C.`);
   if(passenger){
-    // Passenger hooks this listener and forwards requests through its private
-    // Unix socket; the TCP port argument is ignored. Port 0 avoids a fixed port
-    // dependency and also remains a safe ephemeral fallback without the hook.
-    server.listen(0,onListening);
+    // Passenger's explicit listener is a Unix socket, not a TCP port. When the
+    // Passenger API is unavailable (local tests), port 0 requests an ephemeral
+    // OS port instead of relying on a hard-coded production port.
+    listenForPassenger(server,onListening,usePassengerSocket);
   }
   else server.listen(port,'localhost',onListening);
   return server;

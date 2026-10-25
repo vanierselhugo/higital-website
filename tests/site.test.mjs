@@ -5,7 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {once} from 'node:events';
-import {createPreviewServer,startServer} from '../scripts/server.mjs';
+import {configurePassengerSocket,createPreviewServer,listenForPassenger,startServer} from '../scripts/server.mjs';
 import {pages} from '../src/pages.mjs';
 import {packages,care,brand,navigation} from '../content/site.mjs';
 import {redirects} from '../content/redirects.mjs';
@@ -28,6 +28,15 @@ test('Passenger startup works without PORT and opens a dynamically assigned list
     if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
     if(previous===undefined)delete process.env.PORT;else process.env.PORT=previous;
   }
+});
+test('Passenger uses its explicit Unix-socket listener when Passenger is present',()=>{
+  const configured=[];const listens=[];const server={listen:(...args)=>listens.push(args)};const onListening=()=>{};
+  const available=configurePassengerSocket({configure:options=>configured.push(options)});
+  assert.equal(available,true);assert.deepEqual(configured,[{autoInstall:false}]);
+  listenForPassenger(server,onListening,available);
+  assert.deepEqual(listens,[['passenger',onListening]]);
+  listenForPassenger(server,onListening,false);
+  assert.deepEqual(listens[1],[0,onListening]);
 });
 test('contact validation accepts a complete request and all supplied package choices',()=>{
   assert.deepEqual(globalThis.HigitalForm.validate(valid),{});
