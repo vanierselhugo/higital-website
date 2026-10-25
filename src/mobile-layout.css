@@ -1,0 +1,127 @@
+/* Mobile-only flow fixes for the two personal photo sections. */
+@media(max-width:700px){
+  .about-strip.personal-intro .personal-intro-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:none;
+    grid-auto-flow:row;
+    grid-auto-rows:auto;
+    align-items:start;
+    align-content:start;
+    gap:20px;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+  .about-strip.personal-intro .intro-work-photo{
+    grid-column:1;
+    grid-row:auto;
+    justify-self:start;
+    width:min(100%,400px);
+    max-width:100%;
+    height:auto;
+    margin:0;
+  }
+  .about-strip.personal-intro .intro-work-photo img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:16/10;
+    object-fit:cover;
+  }
+  .about-strip.personal-intro .personal-intro-grid>div{
+    grid-column:1;
+    grid-row:auto;
+    align-self:start;
+    min-width:0;
+    min-height:0;
+    margin:0;
+  }
+  .about-strip.personal-intro .personal-intro-grid>div:last-child{margin-top:0}
+
+  .about-surface .about-main{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:none;
+    grid-auto-flow:row;
+    grid-auto-rows:auto;
+    align-items:start;
+    align-content:start;
+    gap:22px;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+    padding-bottom:40px;
+  }
+  .about-surface .about-main>.personal-portrait{
+    grid-column:1;
+    grid-row:auto;
+    justify-self:center;
+    align-self:start;
+    width:min(100%,400px);
+    max-width:400px;
+    height:auto;
+    margin:0;
+  }
+  .about-surface .personal-portrait img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:4/5;
+    object-fit:cover;
+  }
+  .about-surface .about-main>div{
+    grid-column:1;
+    grid-row:auto;
+    align-self:start;
+    min-width:0;
+    margin:0;
+  }
+  .about-surface .about-main>div>h2{margin-top:0}
+}
+
+@media(max-width:390px){
+  .about-strip.personal-intro .personal-intro-grid{gap:18px}
+  .about-surface .about-main{gap:18px;padding-bottom:34px}
+}
+
+/* Keep the shared process section in normal document flow on phones.
+   The late navy theme rule used an 11% grid gap, which became a vertical
+   percentage gap after the desktop grid collapsed to one column. */
+@media(max-width:700px){
+  .process-section{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:24px;
+    height:auto;
+    min-height:0;
+    padding-block:48px;
+    overflow:visible;
+  }
+  .process-section>.process-heading,
+  .process-section>.process-steps{
+    position:static;
+    inset:auto;
+    width:100%;
+    min-width:0;
+    min-height:0;
+    height:auto;
+    margin:0;
+    overflow:visible;
+  }
+  .process-section>.process-heading{align-self:stretch}
+  .process-section .process-photo{position:static;margin:22px 0 0}
+  .process-section>.process-steps{display:block}
+  .process-section>.process-steps>li{
+    position:static;
+    grid-template-columns:32px minmax(0,1fr);
+    align-items:start;
+    height:auto;
+    min-height:0;
+    overflow:visible;
+  }
+  .process-section>.process-steps>li>div{min-width:0}
+  .process-section>.process-steps>li p{overflow-wrap:break-word}
+  .process-section>.process-steps>li:last-child{padding-bottom:32px}
+}

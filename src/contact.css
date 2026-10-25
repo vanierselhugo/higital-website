@@ -1,0 +1,70 @@
+/* One contact widget, no automatic popup or recurring attention animation. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.contact-widget{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));z-index:40;isolation:isolate;transition:opacity .18s ease,visibility .18s ease}
+.contact-trigger{display:flex;align-items:center;justify-content:center;gap:11px;min-height:54px;padding:15px 23px;border:1px solid var(--blue);border-radius:999px;background:var(--navy);color:var(--paper);font:500 14px/1.4 var(--sans);box-shadow:0 6px 24px var(--navy-19);transition:background .25s,color .25s,box-shadow .25s;cursor:pointer}
+.contact-icon{color:var(--blue);flex:0 0 22px}
+.contact-trigger:hover{background:var(--ink);box-shadow:0 8px 28px var(--navy-25)}
+.contact-trigger:focus-visible,.contact-panel a:focus-visible,.contact-close:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.contact-trigger-short{display:none}
+.contact-panel{position:absolute;right:0;bottom:calc(100% + 13px);width:365px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 110px);overflow:auto;overscroll-behavior:contain;background:var(--paper);border:1px solid var(--navy-19);border-radius:24px;padding:25px;box-shadow:0 16px 55px var(--navy-19);transform-origin:bottom right}
+.contact-panel-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:23px}
+.contact-panel-top>span{font-size:13px;color:var(--muted)}
+.contact-close{display:flex;align-items:center;gap:8px;background:transparent;color:var(--navy);border-radius:999px;min-height:44px;padding:8px 11px;font-size:12px;transition:background .2s}
+.contact-close:hover{background:var(--blue)}
+.close-symbol{position:relative;width:12px;height:12px;display:block}
+.close-symbol:before,.close-symbol:after{content:'';position:absolute;left:0;top:5px;width:12px;height:1px;background:currentColor;transform:rotate(45deg)}
+.close-symbol:after{transform:rotate(-45deg)}
+.contact-panel h2{font-size:30px;line-height:1.13;letter-spacing:-.04em;margin:0 0 18px}
+.contact-panel>p{font-size:15px;line-height:1.7;color:var(--ink);margin-bottom:24px}
+.contact-panel-actions{display:grid;gap:10px}
+.contact-panel-actions .button{width:100%;min-height:49px;padding:13px 18px;font-size:14px}
+.contact-panel-actions .contact-whatsapp{background:var(--navy);color:var(--paper)}
+.contact-panel-actions .contact-whatsapp:hover{background:var(--ink)}
+.contact-panel[data-state=closing]{animation:contact-panel-out .18s ease both;pointer-events:none}
+.contact-panel[data-state=open]{animation:contact-panel-in .26s var(--ease) both}
+.contact-widget[data-suppressed=true],.menu-open .contact-widget{opacity:0;visibility:hidden;pointer-events:none}
+[data-motion=on] .contact-widget[data-enhanced=true]{animation:contact-arrive .5s .15s var(--ease) backwards}
+.site-footer{padding-bottom:90px}
+html{scroll-padding-bottom:90px}
+.direct-contact-section{display:grid;grid-template-columns:1fr 1.05fr;gap:10%;align-items:center}
+.direct-contact-copy h2{font-size:clamp(43px,5vw,74px);line-height:1.07;margin-bottom:29px}
+.direct-contact-copy>p{font-size:17px;line-height:1.8;max-width:490px;margin-bottom:29px}
+.chat-example{min-width:0;margin:0}
+.chat-window{border:1px solid var(--navy-19);border-radius:28px;background:var(--pale-blue);overflow:hidden;box-shadow:0 14px 45px var(--navy-09)}
+.chat-window-header{display:flex;align-items:center;gap:13px;padding:22px 26px;background:var(--paper);border-bottom:1px solid var(--navy-09)}
+.chat-window-header>img{border-radius:50%;width:44px;height:44px;object-fit:cover;object-position:50% 26%}
+.chat-window-header strong,.chat-window-header span{display:block}
+.chat-window-header strong{font-size:15px;font-weight:600;color:var(--navy)}
+.chat-window-header span{font-size:12px;color:var(--muted);margin-top:1px}
+.chat-conversation{display:flex;flex-direction:column;gap:14px;list-style:none;padding:25px;margin:0}
+.chat-message{max-width:86%;padding:13px 17px;border-radius:18px;transform-origin:bottom left}
+.chat-entrepreneur{align-self:flex-end;background:var(--paper);color:var(--ink);border-bottom-right-radius:6px;transform-origin:bottom right}
+.chat-higital{align-self:flex-start;background:var(--navy);color:var(--paper);border-bottom-left-radius:6px}
+.chat-speaker{display:block;font-size:11px;font-weight:600;margin-bottom:4px;color:var(--muted)}
+.chat-higital .chat-speaker{color:var(--blue)}
+.chat-message p{font-size:15px;line-height:1.55;margin:0}
+.chat-example figcaption{font-size:12px;line-height:1.6;color:var(--muted);margin-top:16px;text-align:center}
+.chat-playing .chat-window{animation:chat-window-in .6s var(--ease) both}
+.chat-playing .chat-message{animation:chat-message-in .43s var(--ease) both;animation-delay:calc(.12s + var(--message-order)*.38s)}
+@keyframes contact-arrive{from{opacity:0}to{opacity:1}}
+@keyframes contact-panel-in{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes contact-panel-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(6px)}}
+@keyframes chat-window-in{from{opacity:.45;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes chat-message-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:1000px){.direct-contact-section{gap:6%}.direct-contact-copy h2{font-size:48px}.direct-contact-copy>p{font-size:16px}.chat-conversation{padding:20px;gap:12px}.chat-message{padding:12px 15px;max-width:91%}.chat-message p{font-size:14px}}
+@media(max-width:700px){
+ .contact-widget:not([data-enhanced]){position:static;width:max-content;margin:0 16px 20px auto}
+ .contact-widget{right:max(16px,env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));max-width:calc(100vw - 32px)}
+ .contact-trigger{min-height:48px;padding:12px 19px;font-size:13px;gap:9px}
+ .contact-trigger-full{display:none}.contact-trigger-short{display:inline}
+ .contact-panel{width:min(355px,calc(100vw - 32px));padding:22px;border-radius:22px;max-height:calc(100dvh - 95px - env(safe-area-inset-bottom))}
+ .contact-panel-top{margin-bottom:17px}.contact-panel h2{font-size:29px}.contact-panel>p{font-size:14px}.contact-panel-actions .button{font-size:14px}
+ .site-footer{padding-bottom:calc(85px + env(safe-area-inset-bottom))}
+ html{scroll-padding-bottom:100px}.field input,.field select,.field textarea,.button{scroll-margin-bottom:100px}
+ .direct-contact-section{grid-template-columns:1fr;gap:38px;padding-block:65px}
+ .direct-contact-copy h2{font-size:46px;margin-bottom:24px}.direct-contact-copy>p{font-size:16px;margin-bottom:25px}
+ .chat-window{border-radius:23px}.chat-window-header{padding:20px}.chat-conversation{padding:20px;gap:12px}.chat-message{max-width:88%;padding:12px 15px}.chat-message p{font-size:14px}.chat-example figcaption{font-size:12px;text-align:left;padding-inline:3px}
+}
+@media(max-width:390px){.contact-panel{padding:20px}.contact-panel h2{font-size:27px}.contact-panel-top{gap:5px}.contact-panel-top>span{font-size:12px}.contact-close{padding-inline:8px}.direct-contact-copy h2{font-size:41px}.chat-conversation{padding:16px;gap:11px}.chat-message{max-width:92%;padding:11px 13px}.chat-window-header{padding:18px}.chat-window-header span{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.contact-widget,.contact-panel,.chat-window,.chat-message{animation:none!important;transition:none!important}.chat-window,.chat-message{opacity:1!important;transform:none!important}}
+@media print{.contact-widget{display:none!important}.chat-message{opacity:1!important;transform:none!important;animation:none!important}.site-footer{padding-bottom:0}}
