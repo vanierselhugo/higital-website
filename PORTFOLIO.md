@@ -32,6 +32,8 @@ Het eerste project krijgt een brede beeldpresentatie. Volgende projecten staan i
 | `services` | Optionele lijst met verrichte werkzaamheden |
 | `hero` | Hoofdbeeld met `src`, `alt`, `width`, `height` en optioneel `caption` |
 | `screenshots` | Aanvullende beelden in hetzelfde formaat; `className` kan de mobiele opname apart positioneren |
+| `storySections` | Optionele, geordende case-onderdelen: `intro`, `challenge`, `feature`, `mobile` of `result`; beeldonderdelen verwijzen naar een screenshotobject |
+| `closingCta` | Optionele titel, tekst, knoplabel en interne contactlink voor de afsluitende uitnodiging |
 
 Een gepubliceerd project verschijnt automatisch op Home, op `/ons-werk/` en op `/ons-werk/<slug>/`. Onvolledige beeldgegevens stoppen de build met een foutmelding. Tekst wordt ge-escaped voordat die in HTML verschijnt.
 
