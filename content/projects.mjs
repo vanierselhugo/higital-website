@@ -4,29 +4,25 @@ const dondersImages = {
     src: '/assets/donders-home.jpg',
     alt: 'Desktopweergave van de vernieuwde homepage van Donders Meubel met een grote bank, navigatie en rode collectieknop',
     width: 1600,
-    height: 747,
-    caption: 'De vernieuwde homepage van Donders Meubel.'
+    height: 747
   },
   collection: {
     src: '/assets/donders-collectie.jpg',
     alt: 'Collectiepagina van Donders Meubel met meubelcategorieën en een raster van producten',
     width: 1600,
-    height: 726,
-    caption: 'Categorieën maken de collectie eenvoudig te verkennen.'
+    height: 726
   },
   product: {
     src: '/assets/donders-product.jpg',
     alt: 'Productpagina van Donders Meubel met foto, prijs en uitgebreide informatie over een bankstel',
     width: 1600,
-    height: 772,
-    caption: 'Productfoto en informatie staan overzichtelijk naast elkaar.'
+    height: 772
   },
   mobile: {
     src: '/assets/donders-home-mobiel.jpg',
     alt: 'Mobiele weergave van de Donders Meubel homepage met meubelfotografie en knoppen naar de collectie en showroom',
     width: 444,
     height: 672,
-    caption: 'De homepage op een smartphone.',
     className: 'project-photo--mobile'
   }
 };
