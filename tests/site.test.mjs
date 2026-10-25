@@ -180,7 +180,7 @@ test('authentic images copied intact, optimised portrait and work variants prese
   for(const [source,copy] of mapping){const a=await fs.readFile(path.join(sourceRoot,source));const b=await fs.readFile(path.join(root,'public/assets',copy));assert.deepEqual(a,b);}
   for(const name of ['hugo-portret-400.jpg','hugo-portret-800.jpg','hugo-werk-600.jpg','hugo-werk-1200.jpg']){const file=await fs.readFile(path.join(dist,'assets',name));assert.equal(file.readUInt16BE(0),0xffd8);assert.ok(file.length<110000);}
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);assert.match(about,/kennismaking.jpg/);
-  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/class="process-summary/);
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/class="process-section/);
   for(const name of ['hugo-portret-original.png','hugo-werk-original.jpg'])await assert.rejects(fs.access(path.join(dist,'assets',name)));
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');assert.match(contact,/hugo-telefoon.jpg/);
 });
@@ -214,9 +214,14 @@ test('five main navigation destinations, real contact details and all brief incl
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');
   assert.deepEqual([...contact.matchAll(/<(?:input|select|textarea)[^>]*name="([^"]+)"/g)].map(m=>m[1]),['website','name','company','email','phone','package','message']);
   assert.match(contact,/Bedrijfsnaam <span>\(optioneel\)<\/span>/);assert.doesNotMatch(contact.match(/<input id="company"[^>]+>/)[0],/required/);
-  for(const text of ['Wat gebeurt er na je aanvraag?','Een uitgewerkt plan is niet nodig','of er kosten aan verbonden zijn','tel:\+31643880582','wa.me\/31643880582'])assert.ok(contact.includes(text),text);
+  for(const text of ['Wat gebeurt er na je aanvraag?','Je hoeft hiervoor nog geen uitgewerkt plan te hebben','gratis en vrijblijvend eerste websiteconcept','De betaalde opdracht voor de ontwikkeling begint pas wanneer jij akkoord geeft','tel:\+31643880582','wa.me\/31643880582'])assert.ok(contact.includes(text),text);
   for(const retired of ['websites-laten-maken','websitepakketten','websiteonderhoud','werkwijze'])await assert.rejects(fs.access(path.join(dist,retired,'index.html')));
   for(const [old,target] of Object.entries(redirects))assert.ok(old.endsWith('/')&&target.startsWith('/'),old);
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');for(const org of ['Optisport','Fency Jewels','SuperSeal'])assert.ok(about.includes(org));
-  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.ok(home.indexOf('personal-intro')<home.indexOf('pricing-section'));assert.ok(home.indexOf('process-summary')<home.indexOf('Illustratief voorbeeld van een contactmoment'));
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.ok(home.indexOf('personal-intro')<home.indexOf('pricing-section'));assert.ok(home.indexOf('class="process-section')<home.indexOf('Illustratief voorbeeld van een contactmoment'));
+  const sectionOf=html=>{const start=html.indexOf('<section class="process-section');const end=html.indexOf('</section>',start)+10;return html.slice(start,end);};
+  assert.equal(sectionOf(home),sectionOf(about),'homepage and About process sections should render from the same component');
+  assert.ok(about.indexOf('Waar ik mijn blik op')<about.indexOf('values-photo'));
+  const css=await fs.readFile(path.join(dist,'assets/style.css'),'utf8');for(const rule of ['.about-experience p{max-width:650px;color:var(--on-navy-muted)','values-photo figcaption{color:var(--on-navy-muted)','.about-values-section{margin-top:30px;border-radius:36px;background:var(--ink)'])assert.ok(css.includes(rule),rule);
+  const processCopy=about.match(/<section class="process-section[\s\S]*?<\/section>/)[0];assert.match(processCopy,/gratis en vrijblijvend een eerste websiteconcept/);assert.match(processCopy,/betaalde ontwikkeling begint pas na jouw akkoord/);
 });

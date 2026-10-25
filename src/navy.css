@@ -195,3 +195,21 @@ body{background:var(--navy)}
 @media(max-width:390px){.hero-v2 h1{font-size:36px}.hero-v2 .hero-buttons .text-link{font-size:12px;padding-inline:19px}.study-page{padding:18px}.study-body strong{font-size:32px}.page-intro .page-title{font-size:40px}.portfolio-section .portfolio-empty{padding:23px}.portfolio-home .empty-copy h3{font-size:33px}.direct-contact-copy h2{font-size:40px}.contact-aside{padding:25px}.contact-aside h2{font-size:38px}}
 @media(prefers-reduced-motion:reduce){.price-summary,.study-window{transform:none!important;animation:none!important}.site-header .brand-logo{transition:none!important}}
 @media print{body,.tone-dark,.surface,.site-footer{background:white!important;color:black!important}.tone-dark :is(h1,h2,h3,h4,p,em,a,span,li){color:black!important}.site-footer{border-color:black}}
+
+/* About page: align Hugo's work photo with the experience heading and text. */
+.values-section{padding-block:90px 58px}
+.values-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:9%;align-items:start}
+.about-experience h2{margin:0 0 30px;font-size:clamp(40px,4.3vw,62px);line-height:1.08;letter-spacing:-.05em;color:var(--paper)}
+.about-experience p{max-width:650px;color:var(--on-navy-muted);font-size:16px;line-height:1.75}
+.values-photo{align-self:start;margin:0}
+.values-photo figcaption{color:var(--on-navy-muted);font-size:14px}
+.about-values-section{margin-top:30px;border-radius:36px;background:var(--ink);color:var(--paper)}
+.about-values-section>.wrap{padding-block:65px}
+.about-values-section .about-values{margin:0;padding:0}
+.about-values-section .service-rows article{grid-template-columns:36px minmax(0,1.1fr) minmax(0,1fr);gap:25px;padding-block:27px;border-color:var(--white-25)}
+.about-values-section .service-rows article>span{color:var(--blue)}
+.about-values-section .service-rows h3{color:var(--paper);font-size:clamp(27px,3vw,36px)}
+.about-values-section .service-rows article>p{grid-column:3;color:var(--on-navy-muted);font-size:16px;line-height:1.7}
+.about-values-section .service-rows article:last-child{border-bottom:1px solid var(--white-25)}
+@media(max-width:900px){.values-layout{grid-template-columns:1fr;gap:28px}.about-experience{max-width:720px}.values-photo{position:static;width:min(100%,680px)}}
+@media(max-width:700px){.values-section{padding-block:55px 35px}.about-experience h2{font-size:41px;margin-bottom:22px}.about-experience p{font-size:15px}.values-layout{gap:24px}.values-photo{width:100%}.values-photo img{aspect-ratio:16/10}.values-photo figcaption{font-size:13px}.about-values-section{margin-top:20px;border-radius:26px}.about-values-section>.wrap{padding-block:42px}.about-values-section .service-rows article{grid-template-columns:27px minmax(0,1fr);gap:13px 17px;padding-block:23px}.about-values-section .service-rows h3{font-size:27px}.about-values-section .service-rows article>p{grid-column:2;font-size:15px}}

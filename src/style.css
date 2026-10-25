@@ -37,15 +37,6 @@
 .practical-grid article{padding:23px 0;border-top:1px solid var(--line)}
 .practical-grid h3{font-size:21px;margin-bottom:10px}
 .practical-grid p,.about-experience p{font-size:15px;line-height:1.75;color:var(--muted);max-width:650px}
-.process-summary{border-radius:0 0 36px 36px}
-.process-summary .section-heading{align-items:end}
-.process-summary .section-heading>p{max-width:390px}
-.process-summary ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding:0;margin:45px 0 32px;list-style:none}
-.process-summary li{border-top:1px solid var(--white-25);padding-top:18px;display:flex;gap:14px}
-.process-summary li>span{font-size:12px;color:var(--blue);padding-top:5px}
-.process-summary h3{font-size:21px;margin:0 0 11px}
-.process-summary li p{font-size:14px;line-height:1.7;color:var(--on-navy-muted);margin:0}
-.process-summary>.text-link{color:var(--blue)}
 .home-assurances{display:grid;grid-template-columns:.9fr 1.1fr;gap:25px 10%;align-items:start}
 .home-assurances h2{font-size:clamp(38px,4.8vw,66px);line-height:1.05;letter-spacing:-.05em}
 .home-assurances ul{list-style:none;margin:0;padding:0}
@@ -57,8 +48,7 @@
 .contact-next h2{font-size:clamp(26px,3vw,38px);letter-spacing:-.04em;margin-bottom:15px}
 .contact-next p{font-size:15px;line-height:1.75;color:var(--muted)}
 .contact-next p:last-child{margin-bottom:0}
-@media(max-width:1000px){.process-summary ol{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px}.home-assurances{gap:24px 7%}}
-@media(max-width:700px){.package-baseline{font-size:15px;margin-bottom:22px}.package-practical{margin-top:45px;padding-top:25px}.practical-grid{grid-template-columns:1fr}.practical-grid article{padding:20px 0}.process-summary{border-radius:0 0 24px 24px}.process-summary ol{grid-template-columns:1fr;gap:22px;margin:32px 0}.process-summary li{padding-top:15px}.process-summary h3{font-size:23px}.process-summary li p{font-size:15px}.home-assurances{grid-template-columns:1fr;gap:25px}.home-assurances h2{font-size:43px}.home-assurances>.text-link{grid-column:1}.about-experience p{font-size:15px}.about-values{margin-top:35px}.contact-next{padding:22px;margin-bottom:28px;border-radius:20px}.contact-next p{font-size:14px}}
+@media(max-width:700px){.package-baseline{font-size:15px;margin-bottom:22px}.package-practical{margin-top:45px;padding-top:25px}.practical-grid{grid-template-columns:1fr}.practical-grid article{padding:20px 0}.home-assurances{grid-template-columns:1fr;gap:25px}.home-assurances h2{font-size:43px}.home-assurances>.text-link{grid-column:1}.about-experience p{font-size:15px}.contact-next{padding:22px;margin-bottom:28px;border-radius:20px}.contact-next p{font-size:14px}}
 @media(max-width:390px){:root{--gutter:20px}.hero-v2 h1{font-size:36px}.price-summary{grid-template-columns:1fr 90px 15px;padding-inline:7px;gap:8px}.price-summary h3{font-size:24px}.price-value{font-size:29px}.full-package{padding:25px}.closing-bottom .button{font-size:11px;padding-left:13px}.menu-links a{font-size:30px}}
 @media(max-width:1000px){html:not([data-motion]) .desktop-nav{display:flex;flex-wrap:wrap;gap:10px 18px;padding-block:15px}html:not([data-motion]) .site-header{height:auto;position:relative;flex-wrap:wrap}html:not([data-motion]) .header-actions{display:none}}
 @media(prefers-reduced-motion:reduce){.redesign-art{transform:none}#site-menu{transition:none!important}}
