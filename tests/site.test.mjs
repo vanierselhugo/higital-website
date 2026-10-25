@@ -104,7 +104,9 @@ test('public pages contain no demo language and contact submits through the mail
   const privacy=await fs.readFile(path.join(dist,'privacy/index.html'),'utf8');assert.match(privacy,/Resend/);assert.match(privacy,/info@higital.nl/);
   const cookies=await fs.readFile(path.join(dist,'cookies/index.html'),'utf8');assert.match(cookies,/websitecode gebruikt geen cookies/);assert.match(cookies,/hostingprovider kan eigen technische logs/);
   const footer=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(footer,/Alle rechten voorbehouden/);assert.match(footer,/Privacyverklaring/);assert.match(footer,/Cookiebeleid/);assert.doesNotMatch(footer,/Privacy · concept|Lokaal websiteconcept/i);
-  const portfolio=await fs.readFile(path.join(dist,'ons-werk/index.html'),'utf8');assert.match(portfolio,/Elk project begint met een goed gesprek/);assert.doesNotMatch(portfolio,/class="portfolio-card"/);
+  const portfolio=await fs.readFile(path.join(dist,'ons-werk/index.html'),'utf8');assert.match(portfolio,/Donders Meubel/);assert.match(portfolio,/Bekijk het project/);assert.doesNotMatch(portfolio,/Elk project begint met een goed gesprek/);
+  const casePage=await fs.readFile(path.join(dist,'ons-werk/donders-meubel/index.html'),'utf8');assert.match(casePage,/Een frisse online uitstraling voor Donders Meubel/);assert.match(casePage,/https:\/\/demo\.higital\.nl\//);
+  for(const asset of ['donders-home.jpg','donders-collectie.jpg','donders-product.jpg','donders-home-mobiel.jpg'])await assert.doesNotReject(fs.access(path.join(dist,'assets',asset)));
   const app=await fs.readFile(path.join(dist,'assets/app.js'),'utf8');assert.match(app,/fetch\('\/api\/contact'/);assert.doesNotMatch(app,/demo=1|bedankt\//);assert.match(app,/prefers-reduced-motion/);
   const css=await fs.readFile(path.join(dist,'assets/style.css'),'utf8');assert.match(css,/prefers-reduced-motion/);assert.match(css,/:focus-visible/);
 });
@@ -124,8 +126,8 @@ test('preview server handles contact safely and reports missing mail configurati
   const server=createPreviewServer().listen(0,'127.0.0.1');await once(server,'listening');const origin=`http://127.0.0.1:${server.address().port}`;
   try{
     for(const [route] of pages){const response=await fetch(origin+route);assert.equal(response.status,200,route);assert.match(response.headers.get('content-type'),/text\/html/);await response.text();}
-    for(const asset of ['/assets/style.css','/assets/app.js','/assets/brand.css','/assets/higital-logo-original.png','/assets/hugo-portret-400.jpg','/assets/hugo-portret-800.jpg','/assets/hugo-telefoon.jpg','/assets/kennismaking.jpg']){const response=await fetch(origin+asset);assert.equal(response.status,200,asset);await response.arrayBuffer();}
-    for(const retired of ['/ons-werk/donders-meubel/','/work/donders/','/work/donders/index.html','/work/donders/assets/woonkamer-concept.jpg']){const response=await fetch(origin+retired);assert.equal(response.status,404,retired);await response.text();}
+    for(const asset of ['/assets/style.css','/assets/app.js','/assets/brand.css','/assets/higital-logo-original.png','/assets/hugo-portret-400.jpg','/assets/hugo-portret-800.jpg','/assets/hugo-telefoon.jpg','/assets/kennismaking.jpg','/assets/donders-home.jpg','/assets/donders-collectie.jpg','/assets/donders-product.jpg','/assets/donders-home-mobiel.jpg']){const response=await fetch(origin+asset);assert.equal(response.status,200,asset);if(asset.includes('donders-'))assert.match(response.headers.get('content-type'),/image\/jpeg/);await response.arrayBuffer();}
+    for(const retired of ['/work/donders/','/work/donders/index.html','/work/donders/assets/woonkamer-concept.jpg']){const response=await fetch(origin+retired);assert.equal(response.status,404,retired);await response.text();}
     const unknown=await fetch(origin+'/geen-bestaande-pagina');assert.equal(unknown.status,404);await unknown.text();
     const redirect=await fetch(origin+'/websites-prijzen?pakket=start',{redirect:'manual'});assert.equal(redirect.status,308);assert.equal(redirect.headers.get('location'),'/websites-prijzen/?pakket=start');
     for(const [old,target] of Object.entries(redirects)){
@@ -161,18 +163,20 @@ test('email service validates requests, sends only to Higital, and confirms prov
   assert.equal((await limited.submit({input,ip:'same'})).status,503);
   assert.ok(validateSubmission({...input,website:'spam'}).website);
 });
-test('removed portfolio, arrows, pause control and text band are absent throughout the build',async()=>{
+test('portfolio shows the real project and retired controls remain absent',async()=>{
   const files=await fs.readdir(dist,{recursive:true});
   for(const file of files){
-    assert.doesNotMatch(file,/donders/i);
     if(!/\.(html|css|js|json|txt)$/.test(file))continue;
     const text=await fs.readFile(path.join(dist,file),'utf8');
-    assert.doesNotMatch(text,/donders|motion-toggle|type-band|data-scroll-type|[↗↳↓↑→]/i,file);
+    assert.doesNotMatch(text,/motion-toggle|type-band|data-scroll-type|[↗↳↓↑→]/i,file);
     if(file.endsWith('.html'))assert.doesNotMatch(text,/<iframe|localStorage|reset-preferences|Jouw verhaal\. Jouw website\./,file);
   }
   const app=await fs.readFile(path.join(dist,'assets/app.js'),'utf8');
   assert.doesNotMatch(app,/localStorage|userMotion|motionButton|device-preview/);
   assert.match(app,/const motionEnabled=\(\)=>!reduced.matches/);
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/href="\/ons-werk\/donders-meubel\/"/);assert.match(home,/Donders Meubel/);
+  const work=await fs.readFile(path.join(dist,'ons-werk/index.html'),'utf8');assert.match(work,/Donders Meubel/);assert.equal((work.match(/class="portfolio-card project-card"/g)||[]).length,1);
+  assert.deepEqual(publishedProjects().map(project=>project.slug),['donders-meubel']);
 });
 test('authentic images copied intact, optimised portrait and work variants present',async()=>{
   const sourceRoot="C:/Users/vanie/.codex/Referentie foto's";
@@ -187,15 +191,24 @@ test('authentic images copied intact, optimised portrait and work variants prese
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');assert.match(contact,/hugo-telefoon.jpg/);
 });
 test('future project templates publish approved complete entries only and escape client text',()=>{
-  assert.deepEqual(publishedProjects(),[]);
+  assert.deepEqual(publishedProjects().map(project=>project.slug),['donders-meubel']);
   assert.deepEqual(publishedProjects([{published:false}]),[]);
   const fixture={published:true,slug:'template-test',name:'Test <project>',company:'Test & bedrijf',summary:'Introductie.',challenge:'De uitdaging.',approach:'De aanpak.',design:'Ontwerpkeuzes.',services:['Webdesign'],hero:{src:'/assets/hugo-portret-800.jpg',alt:'Afbeelding voor technische templatecontrole',width:800,height:1132},screenshots:[{src:'/assets/kennismaking.jpg',alt:'Technische templatecontrole',width:300,height:168,caption:'Toelichting.'}]};
   assert.equal(publishedProjects([fixture]).length,1);
   for(const field of ['name','company','summary','challenge','approach','design','hero'])assert.throws(()=>publishedProjects([{...fixture,[field]:null}]));
-  assert.throws(()=>publishedProjects([fixture,fixture]));assert.throws(()=>publishedProjects([{...fixture,slug:'../outside'}]));
+  assert.throws(()=>publishedProjects([fixture,fixture]));assert.throws(()=>publishedProjects([{...fixture,slug:'../outside'}]));assert.throws(()=>publishedProjects([{...fixture,externalUrl:'javascript:alert(1)'}]));
   const detail=projectDetail(fixture);assert.equal((detail.match(/<h1/g)||[]).length,1);assert.match(detail,/Test &lt;project&gt;/);assert.match(detail,/Test &amp; bedrijf/);
   for(const text of ['De uitdaging.','De aanpak.','Het ontwerp.','Terug naar ons werk','Bekijk alle projecten'])assert.ok(detail.includes(text));
   assert.match(projectCard(fixture),/href="\/ons-werk\/template-test\/"/);
+});
+test('Donders case uses four real optimized screenshots, honest status, demo URL and complete content',async()=>{
+  const detail=await fs.readFile(path.join(dist,'ons-werk/donders-meubel/index.html'),'utf8');
+  for(const content of ['Donders Meubel','Tilburg','In afronding','Een frisse online uitstraling voor Donders Meubel.','Over de klant.','sinds 1985','De uitdaging.','De aanpak.','aparte pagina voor opruimingsproducten','Het resultaat.','Ook toe aan een website die','Vraag een gratis websiteconcept aan','https://demo.higital.nl/'])assert.ok(detail.includes(content),content);
+  for(const image of ['donders-home.jpg','donders-collectie.jpg','donders-product.jpg','donders-home-mobiel.jpg']){assert.ok(detail.includes(`src="/assets/${image}"`),image);const bytes=await fs.readFile(path.join(dist,'assets',image));assert.equal(bytes.readUInt16BE(0),0xffd8);assert.ok(bytes.length<200000,image);}
+  assert.match(detail,/rel="noopener noreferrer"/);assert.match(detail,/project-photo--mobile/);assert.match(detail,/Donders Meubel website redesign in Tilburg \| Higital/);
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/src="\/assets\/donders-home\.jpg"/);assert.match(home,/Bekijk het project/);
+  const work=await fs.readFile(path.join(dist,'ons-werk/index.html'),'utf8');assert.match(work,/Website redesign · Webontwikkeling/);
+  const css=await fs.readFile(path.join(dist,'assets/style.css'),'utf8');for(const rule of ['.portfolio-card.project-card:first-child .project-image--contain img{aspect-ratio:auto;object-fit:contain;transition:none}','.project-gallery .project-photo--mobile{grid-column:1/-1;justify-self:center;width:min(100%,444px)','@media(max-width:700px){.portfolio-card.project-card .portfolio-caption{display:block}'])assert.ok(css.includes(rule),rule);
 });
 test('five main navigation destinations, real contact details and all brief inclusions',async()=>{
   assert.deepEqual(navigation.map(([label])=>label),['Home','Websites & prijzen','Ons werk','Over Higital','Contact']);
