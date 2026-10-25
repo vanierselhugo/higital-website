@@ -181,6 +181,9 @@ test('authentic images copied intact, optimised portrait and work variants prese
   for(const name of ['hugo-portret-400.jpg','hugo-portret-800.jpg','hugo-werk-600.jpg','hugo-werk-1200.jpg']){const file=await fs.readFile(path.join(dist,'assets',name));assert.equal(file.readUInt16BE(0),0xffd8);assert.ok(file.length<110000);}
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);assert.match(about,/kennismaking.jpg/);
   const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/class="process-section/);
+  for(const [source,copy] of [['higital-hero-desktop.jpg','higital-hero-desktop.jpg'],['higital-hero-mobile.jpg','higital-hero-mobile.jpg']]){const original=await fs.readFile(path.join(sourceRoot,source));const asset=await fs.readFile(path.join(dist,'assets',copy));assert.deepEqual(asset,original);assert.ok(asset.length<120_000);}
+  assert.match(home,/<picture class="hero-media"[\s\S]*?<source media="\(max-width:700px\)" srcset="\/assets\/higital-hero-mobile\.jpg"[\s\S]*?<img src="\/assets\/higital-hero-desktop\.jpg" alt="" width="1800" height="771"/);
+  assert.doesNotMatch(home,/class="design-study"/);
   for(const name of ['hugo-portret-original.png','hugo-werk-original.jpg'])await assert.rejects(fs.access(path.join(dist,'assets',name)));
   const contact=await fs.readFile(path.join(dist,'contact/index.html'),'utf8');assert.match(contact,/hugo-telefoon.jpg/);
 });
@@ -219,9 +222,11 @@ test('five main navigation destinations, real contact details and all brief incl
   for(const [old,target] of Object.entries(redirects))assert.ok(old.endsWith('/')&&target.startsWith('/'),old);
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');for(const org of ['Optisport','Fency Jewels','SuperSeal'])assert.ok(about.includes(org));
   const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.ok(home.indexOf('personal-intro')<home.indexOf('pricing-section'));assert.ok(home.indexOf('class="process-section')<home.indexOf('Illustratief voorbeeld van een contactmoment'));
+  assert.match(home,/class="surface process-home-dark"/);assert.match(home,/class="surface surface-paper"><section class="home-assurances/);
+  assert.doesNotMatch(about,/process-home-dark|hero-media/);assert.match(about,/process-light/);
   const sectionOf=html=>{const start=html.indexOf('<section class="process-section');const end=html.indexOf('</section>',start)+10;return html.slice(start,end);};
   assert.equal(sectionOf(home),sectionOf(about),'homepage and About process sections should render from the same component');
   assert.ok(about.indexOf('Waar ik mijn blik op')<about.indexOf('values-photo'));
-  const css=await fs.readFile(path.join(dist,'assets/style.css'),'utf8');for(const rule of ['.about-experience p{max-width:650px;color:var(--on-navy-muted)','values-photo figcaption{color:var(--on-navy-muted)','.about-values-section{margin-top:30px;border-radius:36px;background:var(--ink)'])assert.ok(css.includes(rule),rule);
+  const css=await fs.readFile(path.join(dist,'assets/style.css'),'utf8');for(const rule of ['.about-experience p{max-width:650px;color:var(--on-navy-muted)','values-photo figcaption{color:var(--on-navy-muted)','.about-values-section{margin-top:30px;border-radius:36px;background:var(--ink)','.process-home-dark{background:var(--navy);color:var(--paper)}','.hero-media{position:absolute;inset:0;z-index:0'])assert.ok(css.includes(rule),rule);
   const processCopy=about.match(/<section class="process-section[\s\S]*?<\/section>/)[0];assert.match(processCopy,/gratis en vrijblijvend een eerste websiteconcept/);assert.match(processCopy,/betaalde ontwikkeling begint pas na jouw akkoord/);
 });
