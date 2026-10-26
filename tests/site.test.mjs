@@ -184,7 +184,7 @@ test('authentic images copied intact, optimised portrait and work variants prese
   for(const [source,copy] of mapping){const a=await fs.readFile(path.join(sourceRoot,source));const b=await fs.readFile(path.join(root,'public/assets',copy));assert.deepEqual(a,b);}
   for(const name of ['hugo-portret-400.jpg','hugo-portret-800.jpg','hugo-werk-600.jpg','hugo-werk-1200.jpg']){const file=await fs.readFile(path.join(dist,'assets',name));assert.equal(file.readUInt16BE(0),0xffd8);assert.ok(file.length<110000);}
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);assert.match(about,/kennismaking.jpg/);
-  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-werk-1200.jpg/);assert.match(home,/class="process-section/);
+  const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-portret-800.jpg/);assert.match(home,/class="process-section/);
   const hero=home.match(/<section class="home-hero\b[\s\S]*?<\/section>/)?.[0];
   assert.ok(hero,'The homepage presents a real project in the hero');
   for(const name of ['donders-home.jpg','donders-home-mobiel.jpg'])assert.ok(hero.includes(`src="/assets/${name}"`),name);

@@ -1,3 +1,18 @@
+/* Keep the homepage portrait at its original vertical ratio, without cropping. */
+.about-strip.personal-intro .intro-profile-photo{
+  width:min(100%,300px);
+  max-width:100%;
+  border-radius:28px;
+}
+.about-strip.personal-intro .intro-profile-photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+}
+
 /* Mobile-only flow fixes for the two personal photo sections. */
 @media(max-width:700px){
   .about-strip.personal-intro .personal-intro-grid{
@@ -13,21 +28,22 @@
     min-height:0;
     overflow:visible;
   }
-  .about-strip.personal-intro .intro-work-photo{
+  .about-strip.personal-intro .intro-profile-photo{
     grid-column:1;
     grid-row:auto;
     justify-self:start;
-    width:min(100%,400px);
+    width:min(100%,240px);
     max-width:100%;
     height:auto;
     margin:0;
+    border-radius:23px;
   }
-  .about-strip.personal-intro .intro-work-photo img{
+  .about-strip.personal-intro .intro-profile-photo img{
     display:block;
     width:100%;
     height:auto;
-    aspect-ratio:16/10;
-    object-fit:cover;
+    aspect-ratio:auto;
+    object-fit:contain;
   }
   .about-strip.personal-intro .personal-intro-grid>div{
     grid-column:1;

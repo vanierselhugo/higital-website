@@ -608,6 +608,21 @@ body{background:var(--navy)}
 @media(max-width:1000px){.project-case .project-intro h1{font-size:clamp(48px,8.3vw,84px)}.project-case .project-lead{grid-template-columns:1fr .75fr;gap:6%}.case-story>.wrap,.case-story--feature>.wrap,.case-story--image-right>.wrap,.case-story--mobile>.wrap,.case-story--result>.wrap{gap:6%}.case-story h2{font-size:clamp(36px,5vw,54px)}}
 @media(max-width:700px){.project-case-hero{padding-bottom:48px}.project-case .case-back{padding-top:14px}.project-case .project-intro{padding-top:44px}.project-case .project-kicker{max-width:100%;margin-bottom:22px;font-size:11px;letter-spacing:.09em}.project-case .project-intro h1{font-size:clamp(41px,10.5vw,64px);line-height:1.03}.project-case .project-lead{grid-template-columns:1fr;gap:19px;margin-top:22px}.project-case .project-lead>p{font-size:16px}.case-meta{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px;margin-top:30px;padding-top:19px}.case-meta dd{font-size:14px}.project-case .project-hero{width:calc(100% - 30px);margin-top:35px}.case-browser{border-radius:18px}.case-browser-bar{grid-template-columns:auto minmax(80px,1fr);min-height:40px;gap:15px;padding-inline:12px}.case-browser-address{font-size:10px}.case-browser-spacer{display:none}.case-story{padding-block:58px}.case-story>.wrap,.case-story--feature>.wrap,.case-story--image-right>.wrap,.case-story--mobile>.wrap,.case-story--result>.wrap{grid-template-columns:1fr;gap:22px}.case-story h2{max-width:600px;font-size:clamp(35px,9vw,48px)}.case-story p{font-size:15px;line-height:1.75}.case-story--feature .project-photo{order:2}.case-story--feature .case-story-copy{order:1}.case-story--image-right .project-photo{order:2}.case-story--image-right .case-story-copy{order:1}.case-story--mobile>.wrap{gap:30px}.case-phone{width:min(78%,310px);padding:9px 8px 8px;border-radius:31px}.case-phone .project-photo{border-radius:21px}.case-story--result>.wrap{padding:26px 23px;border-radius:25px}.case-story--result h2{font-size:clamp(35px,8.7vw,46px)}.project-case .project-return{padding-block:32px 24px}.project-case .project-cta{padding-block:60px}.project-case .project-cta>.wrap{padding-top:34px}.project-case .project-cta h2{font-size:clamp(37px,9vw,56px)}.project-case .project-cta p{font-size:15px}}
 
+/* Keep the homepage portrait at its original vertical ratio, without cropping. */
+.about-strip.personal-intro .intro-profile-photo{
+  width:min(100%,300px);
+  max-width:100%;
+  border-radius:28px;
+}
+.about-strip.personal-intro .intro-profile-photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center;
+}
+
 /* Mobile-only flow fixes for the two personal photo sections. */
 @media(max-width:700px){
   .about-strip.personal-intro .personal-intro-grid{
@@ -623,21 +638,22 @@ body{background:var(--navy)}
     min-height:0;
     overflow:visible;
   }
-  .about-strip.personal-intro .intro-work-photo{
+  .about-strip.personal-intro .intro-profile-photo{
     grid-column:1;
     grid-row:auto;
     justify-self:start;
-    width:min(100%,400px);
+    width:min(100%,240px);
     max-width:100%;
     height:auto;
     margin:0;
+    border-radius:23px;
   }
-  .about-strip.personal-intro .intro-work-photo img{
+  .about-strip.personal-intro .intro-profile-photo img{
     display:block;
     width:100%;
     height:auto;
-    aspect-ratio:16/10;
-    object-fit:cover;
+    aspect-ratio:auto;
+    object-fit:contain;
   }
   .about-strip.personal-intro .personal-intro-grid>div{
     grid-column:1;
