@@ -1,3 +1,13 @@
+## Homepage-hero — 26 oktober 2026
+
+- Alleen de hero heeft nieuwe markup en eigen, afgeschermde CSS. De bestaande header, navigatie, overige homepage-secties en andere pagina's blijven identiek. Headline, beide alinea's, knopteksten, vanafprijs en alle drie linkbestemmingen zijn met de vorige versie vergeleken.
+- Gecentreerde typografie, lichtblauwe radial gradients op de bestaande navy, een gelaagde browsermock-up en overlappende telefoon. Beide originele Donders Meubel-screenshots blijven ongewijzigd en worden volledig getoond. De bestaande afgeronde overgang naar diensten blijft intact.
+- Extra JPEG-varianten uit de originele screenshots: desktop 800 px (31.765 bytes), 1200 px (64.595 bytes), mobiel 222 px (17.339 bytes). `srcset`/`sizes`, vaste beeldverhoudingen en hoge laadprioriteit voor het hoofdbeeld; geen nieuwe runtime-afhankelijkheden.
+- Eigen tablet- en mobielregels, passende knopbreedtes en een begrensde beeldcompositie. Korte eenmalige introductie, zonder transparantie op de tekst; `prefers-reduced-motion` schakelt deze uit. Contrasten zijn numeriek gecontroleerd, inclusief een conservatieve maximale overlap van de achtergrondverlopen.
+- Productiebuild en 21 bestaande tests geslaagd. De oude testverwachting voor een abstracte hero is vervangen door controles op de echte screenshots en compacte varianten.
+- **Visuele browsercontrole niet uitgevoerd:** Chrome is beschikbaar, maar Computer Use beëindigde de bediening omdat de actuele browser-URL niet betrouwbaar kon worden vastgesteld. Desktop, tablet, mobiel en de uiteindelijke animatie zijn daardoor nog niet visueel beoordeeld; de responsive controle betreft broncode, geen browsermetingen.
+- Geen wijzigingen uitgevoerd op higital.nl of de website van Donders Meubel.
+
 ## Update 2.4 - form, privacy and public copy
 
 - Demo-, lokale en conceptmeldingen uit de gegenereerde bezoekerspagina?s gehaald. Footerlinks, copyright, metadata en headerknop voor desktop en mobiel nagekeken.

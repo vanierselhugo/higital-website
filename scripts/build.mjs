@@ -16,6 +16,7 @@ await fs.appendFile(path.join(dist,'assets/style.css'),'\n'+await fs.readFile(pa
 await fs.appendFile(path.join(dist,'assets/style.css'),'\n'+await fs.readFile(path.join(root,'src/contact.css'),'utf8'));
 await fs.appendFile(path.join(dist,'assets/style.css'),'\n'+await fs.readFile(path.join(root,'src/navy.css'),'utf8'));
 await fs.appendFile(path.join(dist,'assets/style.css'),'\n'+await fs.readFile(path.join(root,'src/mobile-layout.css'),'utf8'));
+await fs.appendFile(path.join(dist,'assets/style.css'),'\n'+await fs.readFile(path.join(root,'src/home-hero.css'),'utf8'));
 await fs.writeFile(path.join(dist,'assets/brand.css'),`:root{${Object.entries(brand.colors).map(([key,value])=>`--${key}:${value}`).join(';')}}`);
 const packageJson=await fs.readFile(path.join(root,'package.json'),'utf8');
 const version=JSON.parse(packageJson).version;
