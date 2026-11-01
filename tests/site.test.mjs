@@ -186,10 +186,10 @@ test('authentic images copied intact, optimised portrait and work variants prese
   const about=await fs.readFile(path.join(dist,'over-higital/index.html'),'utf8');assert.match(about,/srcset="[^"]*400w,[^"]*800w/);assert.match(about,/kennismaking.jpg/);
   const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/hugo-portret-800.jpg/);assert.match(home,/class="process-section/);
   const hero=home.match(/<section class="home-hero\b[\s\S]*?<\/section>/)?.[0];
-  assert.ok(hero,'The homepage presents a real project in the hero');
-  for(const name of ['donders-home.jpg','donders-home-mobiel.jpg'])assert.ok(hero.includes(`src="/assets/${name}"`),name);
+  assert.ok(hero,'The homepage has its own brand hero');
+  assert.doesNotMatch(hero,/donders|<img|<figure/i);
+  assert.match(hero,/home-hero-art" aria-hidden="true/);
   for(const name of ['donders-home-800.jpg','donders-home-1200.jpg','donders-home-mobiel-222.jpg']){
-    assert.ok(hero.includes(`/assets/${name}`),name);
     const file=await fs.readFile(path.join(dist,'assets',name));assert.equal(file.readUInt16BE(0),0xffd8);assert.ok(file.length<70000,name);
   }
   assert.doesNotMatch(home,/hero-media|higital-hero-(desktop|mobile)/);

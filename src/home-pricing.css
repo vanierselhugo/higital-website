@@ -1,0 +1,53 @@
+/* One shared pricing surface, three equally weighted columns. Homepage only. */
+.home-flow .pricing-section { padding-block: 80px 88px; }
+.home-flow .price-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-block: 1px solid var(--navy-25);
+}
+.home-flow .price-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 116px 1fr;
+  align-content: start;
+  align-items: start;
+  gap: 24px;
+  padding: 32px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--navy);
+  box-shadow: none;
+  transform: none;
+  transition: background .2s;
+}
+.home-flow .price-summary + .price-summary { border-left: 1px solid var(--navy-25); }
+.home-flow .price-summary:hover { background: color-mix(in srgb, var(--white) 40%, transparent); padding: 32px; transform: none; }
+.home-flow .price-summary:focus-visible { outline: 3px solid var(--navy); outline-offset: -3px; }
+.home-flow .price-number, .home-flow .price-summary::after { display: none; }
+.home-flow .price-summary h3 { min-height: 100px; font-size: clamp(23px, 2.2vw, 32px); line-height: 1.2; letter-spacing: -.04em; color: var(--navy); }
+.home-flow .price-summary h3 small { display: block; min-height: 44px; margin-top: 14px; font-size: 14px; line-height: 1.5; font-weight: 400; letter-spacing: 0; color: var(--ink); }
+.home-flow .price-summary > p { display: block; grid-row: 3; margin: 0; padding-top: 22px; border-top: 1px solid var(--navy-19); font-size: 15px; line-height: 1.65; color: var(--ink); }
+.home-flow .price-value { grid-row: 2; display: flex; flex-direction: column; align-items: flex-start; justify-content: end; text-align: left; font-size: clamp(44px, 4.2vw, 60px); line-height: 1.1; font-weight: 500; letter-spacing: -.055em; color: var(--navy); }
+.home-flow .price-value small { display: block; color: var(--ink); font-size: 13px; line-height: 1.5; letter-spacing: 0; font-weight: 400; white-space: normal; }
+.home-flow .price-value small:last-child { margin-top: 10px; }
+.home-flow .pricing-section .scope-note { margin-block: 22px; font-size: 13px; color: var(--ink); }
+.home-flow .pricing-section > .text-link { border-radius: 6px; box-shadow: none; }
+@media (max-width: 1000px) and (min-width: 701px) {
+  .home-flow .price-summary, .home-flow .price-summary:hover { padding: 26px 18px; gap: 20px; }
+  .home-flow .price-summary h3 { font-size: 23px; }
+  .home-flow .price-summary h3 small { min-height: 63px; }
+}
+@media (max-width: 700px) {
+  .home-flow .pricing-section { padding-block: 52px 56px; }
+  .home-flow .price-overview { grid-template-columns: minmax(0, 1fr); }
+  .home-flow .price-summary, .home-flow .price-summary:hover { grid-template-columns: minmax(0, 1fr) 110px; grid-template-rows: auto auto; gap: 18px 12px; padding: 26px 0; }
+  .home-flow .price-summary + .price-summary { border-left: 0; border-top: 1px solid var(--navy-25); }
+  .home-flow .price-summary h3 { font-size: 25px; align-self: center; }
+  .home-flow .price-summary h3 small { min-height: 0; font-size: 14px; margin-top: 10px; }
+  .home-flow .price-value { grid-column: 2; grid-row: 1; font-size: 36px; align-self: center; align-items: flex-end; text-align: right; }
+  .home-flow .price-value small { font-size: 12px; }
+  .home-flow .price-summary > p { grid-column: 1 / -1; grid-row: 2; padding-top: 0; border: 0; font-size: 14px; }
+  .home-flow .pricing-section > .text-link { width: 100%; padding-inline: 16px; }
+}
