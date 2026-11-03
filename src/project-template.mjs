@@ -28,7 +28,9 @@ function defaultStory(project){
 
 export function projectDetail(project) {
   const meta=[['Klant',project.company],['Locatie',project.location],['Diensten',project.serviceLabel??project.category],['Status',project.status]].filter(([,value])=>value);
-  const metadata=meta.map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${label==='Status'?`<span class="case-status">${esc(value)}</span>`:esc(value)}</dd></div>`).join('');
+  const renderMeta=([label,value])=>`<div><dt>${esc(label)}</dt><dd>${label==='Status'?`<span class="case-status">${esc(value)}</span>`:esc(value)}</dd></div>`;
+  const locationStatus=meta.filter(([label])=>label==='Locatie'||label==='Status');
+  const metadata=[...meta.filter(([label])=>label!=='Locatie'&&label!=='Status').map(renderMeta),`<div class="case-meta-location-status">${locationStatus.map(renderMeta).join('')}</div>`].join('');
   const external=project.externalUrl?`<div class="case-external"><a class="case-external-link" href="${esc(project.externalUrl)}" target="_blank" rel="noopener noreferrer">${esc(project.externalLinkLabel??'Bekijk de website')}</a>${project.externalNote?`<p>${esc(project.externalNote)}</p>`:''}</div>`:'';
   const story=project.storySections?.length?project.storySections.map(storySection).join(''):defaultStory(project);
   const finalCta=project.closingCta??{};
