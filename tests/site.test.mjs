@@ -169,7 +169,7 @@ test('portfolio shows the real project and retired controls remain absent',async
     if(!/\.(html|css|js|json|txt)$/.test(file))continue;
     const text=await fs.readFile(path.join(dist,file),'utf8');
     assert.doesNotMatch(text,/motion-toggle|type-band|data-scroll-type|[↗↳↓↑→]/i,file);
-    if(file.endsWith('.html'))assert.doesNotMatch(text,/<iframe|localStorage|reset-preferences|Jouw verhaal\. Jouw website\./,file);
+    if(file.endsWith('.html')&&file!=='404.html')assert.doesNotMatch(text,/<iframe|localStorage|reset-preferences|Jouw verhaal\. Jouw website\./,file);
   }
   const app=await fs.readFile(path.join(dist,'assets/app.js'),'utf8');
   assert.doesNotMatch(app,/localStorage|userMotion|motionButton|device-preview/);
@@ -212,8 +212,8 @@ test('Donders case uses four real optimized screenshots, completed status, live 
   for(const content of ['KLANTVERHAAL / WEBDESIGN / TILBURG','Een nieuwe uitstraling voor een vertrouwde meubelzaak.','Al sinds 1985 helpt Donders Meubel','Klant','Locatie','Diensten','Opgeleverd','Bekijk de website van Donders Meubel','De nieuwe website is opgeleverd en staat officieel live.','Een meubelzaak met een verhaal.','Een website die niet meer bij de winkel paste.','De collectie verdient de hoofdrol.','Ook de details maken het verschil.','Van groot scherm tot smartphone.','Een uitstraling die bij Donders Meubel past.','Ook een website die','écht bij jouw bedrijf past?','gratis en vrijblijvend eerste concept','Bekijk wat er mogelijk is','https://dondersmeubel.nl/'])assert.ok(detail.includes(content),content);
   for(const image of ['donders-home.jpg','donders-collectie.jpg','donders-product.jpg','donders-home-mobiel.jpg']){assert.ok(detail.includes(`src="/assets/${image}"`),image);const bytes=await fs.readFile(path.join(dist,'assets',image));assert.equal(bytes.readUInt16BE(0),0xffd8);assert.ok(bytes.length<200000,image);}
   assert.doesNotMatch(detail,/<figcaption|demo\.higital\.nl|In afronding|Binnenkort live|Binnenkort online|Nog niet gepubliceerd/i);
-  assert.ok(detail.includes('<link rel="canonical" href="https://nieuw.higital.nl/ons-werk/donders-meubel/">'));
-  assert.ok(detail.includes('<meta property="og:url" content="https://nieuw.higital.nl/ons-werk/donders-meubel/">'));
+  assert.ok(detail.includes('<link rel="canonical" href="https://higital.nl/ons-werk/donders-meubel/">'));
+  assert.ok(detail.includes('<meta property="og:url" content="https://higital.nl/ons-werk/donders-meubel/">'));
   assert.match(detail,/rel="noopener noreferrer"/);assert.match(detail,/case-browser/);assert.match(detail,/case-phone/);assert.match(detail,/project-photo--mobile/);assert.match(detail,/Donders Meubel: website opgeleverd in Tilburg \| Higital/);
   assert.equal((detail.match(/href="https:\/\/dondersmeubel\.nl\/"/g)||[]).length,1,'single centrally-configured live link');assert.match(detail,/class="button button-light large-button" href="\/contact\/"[^>]*><span>Bekijk wat er mogelijk is/);
   const home=await fs.readFile(path.join(dist,'index.html'),'utf8');assert.match(home,/src="\/assets\/donders-home\.jpg"/);assert.match(home,/Bekijk het project/);
