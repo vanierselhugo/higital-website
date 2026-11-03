@@ -1,6 +1,6 @@
 # Portfolio en herbruikbare projecttemplate
 
-Het portfolio toont Donders Meubel als eerste klantproject. De case staat als **In afronding** vermeld en linkt voorlopig naar de demo-website. De bestaande template blijft beschikbaar voor volgende afgeronde projecten.
+Het portfolio toont Donders Meubel als eerste volledig afgeronde en officieel opgeleverde klantproject. De case staat als **Opgeleverd** vermeld. De live website wordt centraal ingesteld via `externalUrl` in `content/projects.mjs`; zowel de websiteknop als het adres in de browseromlijsting gebruiken deze instelling. De bestaande screenshots blijven zonder onderschriften. De bestaande template blijft beschikbaar voor volgende afgeronde projecten.
 
 ## Onderdelen
 

@@ -22,7 +22,7 @@ const about=()=>`${intro('Hugo achter Higital.<br><em>Persoonlijk, vanaf dag é�
 export const pages=[
   ['/', 'Websites die laten zien wat je bedrijf waard is', 'Hugo van Higital ontwerpt, bouwt en vernieuwt websites. Persoonlijk contact, websites vanaf € 499 exclusief btw. Vanuit Tilburg.',home],
   ['/websites-prijzen/','Websites & prijzen vanaf € 499','Higital Start € 499, Business € 999 en Premium vanaf € 1.799. Websitevernieuwing en optioneel onderhoud. Alle prijzen exclusief btw.',prices],
-  ['/ons-werk/','Ons werk | Donders Meubel','Bekijk het websiteproject voor Donders Meubel in Tilburg: een vernieuwde presentatie van collectie, producten en showroom.',work],
+  ['/ons-werk/','Ons werk | Donders Meubel','Bekijk het opgeleverde websiteproject voor Donders Meubel in Tilburg: een vernieuwde presentatie van collectie, producten en showroom.',work],
   ['/over-higital/','Over Hugo en Higital','Maak kennis met Hugo van Iersel. Persoonlijk webdesign vanuit Tilburg, voor zzp’ers, kleine ondernemers en mkb.',about],
   ['/contact/','Kennismaken met Hugo van Higital','Bespreek je nieuwe website met Hugo van Iersel. Vraag een kennismaking aan, mail of bel.',contact],
     ['/privacy/','Privacyverklaring','Lees hoe Higital je gegevens gebruikt wanneer je contact opneemt.',privacy],

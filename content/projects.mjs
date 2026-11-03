@@ -35,17 +35,17 @@ export const projects = [
     company: 'Donders Meubel',
     category: 'Website redesign · Webontwikkeling',
     location: 'Tilburg',
-    status: 'In afronding',
-    externalUrl: 'https://demo.higital.nl/',
+    status: 'Opgeleverd',
+    externalUrl: 'https://dondersmeubel.nl/',
     externalLinkLabel: 'Bekijk de website van Donders Meubel',
-    externalNote: 'De nieuwe website is nog in afronding. Bekijk alvast de demo van het ontwerp.',
-    metaTitle: 'Donders Meubel website redesign in Tilburg',
-    metaDescription: 'Bekijk hoe Higital de website van Donders Meubel in Tilburg vernieuwde, met een overzichtelijke collectie en aandacht voor persoonlijk advies.',
+    externalNote: 'De nieuwe website is opgeleverd en staat officieel live.',
+    metaTitle: 'Donders Meubel: website opgeleverd in Tilburg',
+    metaDescription: 'Bekijk hoe Higital voor Donders Meubel in Tilburg een moderne, overzichtelijke website ontwierp en ontwikkelde. Ontdek het klantverhaal en bekijk het resultaat.',
     heroEyebrow: 'KLANTVERHAAL / WEBDESIGN / TILBURG',
     headline: 'Een nieuwe uitstraling voor een vertrouwde meubelzaak.',
-    summary: 'Al sinds 1985 helpt Donders Meubel klanten bij het vinden van meubels die écht bij ze passen. Higital vertaalde die persoonlijke aanpak naar een moderne, overzichtelijke website waarin de collectie en de winkel centraal staan.',
+    summary: 'Al sinds 1985 helpt Donders Meubel klanten bij het vinden van meubels die écht bij ze passen. Higital ontwierp, ontwikkelde en leverde een moderne, overzichtelijke website op waarin de collectie en de winkel centraal staan. De nieuwe website staat officieel live.',
     homepageCategory: 'Website redesign · Tilburg',
-    homepageSummary: 'Een compleet vernieuwde website voor een vertrouwde meubelzaak in Tilburg. Met een frisse uitstraling, overzichtelijke collectie en aandacht voor persoonlijk advies.',
+    homepageSummary: 'Opgeleverd en live: een vernieuwde website voor een vertrouwde meubelzaak in Tilburg. Met een frisse uitstraling, overzichtelijke collectie en persoonlijk advies.',
     serviceLabel: 'Webdesign & webontwikkeling',
     hero: dondersImages.homepage,
     heroFit: 'contain',
@@ -61,7 +61,7 @@ export const projects = [
       'Meer aandacht voor de showroom en persoonlijk advies.',
       'Een responsive ontwerp voor desktop en mobiel.'
     ],
-    result: 'Het resultaat is een moderne en overzichtelijke website die beter aansluit bij de uitstraling van Donders Meubel. Bezoekers kunnen door meubelcategorieën bladeren, producten bekijken en informatie vinden over de showroom.',
+    result: 'De opgeleverde website staat officieel live en sluit met een moderne, overzichtelijke presentatie aan bij de uitstraling van Donders Meubel. Bezoekers kunnen door meubelcategorieën bladeren, producten bekijken en informatie vinden over de showroom.',
     design: 'Warme meubelfotografie krijgt de ruimte. Rode accenten sluiten aan op Donders Meubel en de indeling helpt bezoekers collectie en productinformatie te verkennen.',
     services: ['Website redesign', 'Webontwikkeling', 'Responsive ontwerp'],
     screenshots: [dondersImages.collection,dondersImages.product,dondersImages.mobile],
@@ -101,7 +101,7 @@ export const projects = [
       {
         type: 'result',
         title: 'Een uitstraling die bij Donders Meubel past.',
-        body: 'Het vernieuwde ontwerp brengt een moderne presentatie samen met de vertrouwde identiteit van Donders Meubel. Bezoekers kunnen de collectie ontdekken, productinformatie bekijken en meer lezen over de winkel en showroom.'
+        body: 'Donders Meubel is het eerste volledig afgeronde en officieel opgeleverde klantproject van Higital. Higital verzorgde het ontwerp en de ontwikkeling; de nieuwe website staat nu live. De website combineert een moderne presentatie met de vertrouwde identiteit van Donders Meubel. Bezoekers kunnen de collectie ontdekken, productinformatie bekijken en meer lezen over de winkel en showroom.'
       }
     ],
     closingCta: {
